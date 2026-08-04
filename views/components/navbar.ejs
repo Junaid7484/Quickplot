@@ -1,0 +1,322 @@
+<style>
+  .custom-navbar {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+    min-height: 60px;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+  }
+
+  @media (min-width: 768px) {
+    .custom-navbar {
+      height: 90px;
+    }
+  }
+  
+  .nav-link-custom {
+    color: #333333 !important;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .nav-link-custom:hover {
+    color: orangered !important;
+  }
+
+  .navbar-brand-large {
+    position: relative;
+    z-index: 10;
+    margin-top: -6px;
+    margin-bottom: -6px;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .navbar-brand-large {
+      margin-top: -12px;
+      margin-bottom: -12px;
+    }
+  }
+
+  /* Responsive Logo Sizing */
+  .navbar-brand-large img {
+    max-width: 100px !important;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.08));
+  }
+
+  @media (min-width: 576px) {
+    .navbar-brand-large img {
+      max-width: 130px !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .navbar-brand-large img {
+      max-width: 175px !important;
+    }
+  }
+
+  /* Fixed & Modern Add Button */
+  .btn-add {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    color: #ffffff !important;
+    background-color: #ea61aa !important; /* Accent */
+    border: none !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    text-decoration: none !important;
+    flex-shrink: 0;
+  }
+
+  .btn-add:hover,
+  .btn-add:focus,
+  .btn-add:active {
+    background-color: #ff1493 !important;
+    color: #ffffff !important;
+    transform: none !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15) !important;
+    outline: none !important;
+  }
+
+  /* Profile Avatar Pill Button Trigger */
+  .btn-profile-pill {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 50px !important;
+    padding: 0.3rem 0.6rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.25s ease !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .btn-profile-pill {
+      padding: 0.3rem 0.85rem 0.3rem 0.35rem !important;
+    }
+  }
+
+  .btn-profile-pill:hover,
+  .btn-profile-pill:focus {
+    border-color: #f17649 !important;
+    box-shadow: 0 4px 14px rgba(241, 118, 73, 0.2) !important;
+  }
+
+  .user-avatar-img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* Dropdown Menu Popup Styling */
+  .user-dropdown-container {
+    position: relative;
+  }
+
+  .user-dropdown-menu {
+    display: none;
+    position: absolute !important;
+    top: 100% !important;
+    right: 0 !important;
+    margin-top: 0.5rem !important;
+    border-radius: 18px !important;
+    border: 1px solid #e2e8f0 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.15) !important;
+    padding: 0.6rem !important;
+    min-width: 220px;
+    z-index: 10000 !important;
+    list-style: none;
+  }
+
+  /* Active Class Applied via JS */
+  .user-dropdown-menu.active {
+    display: block !important;
+  }
+
+  .user-dropdown-menu .dropdown-item {
+    border-radius: 12px;
+    padding: 0.65rem 1rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #0f172a;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .user-dropdown-menu .dropdown-item:hover {
+    background-color: rgba(241, 118, 73, 0.08);
+    color: #f17649;
+  }
+
+  .user-dropdown-menu .dropdown-item.text-danger:hover {
+    background-color: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+  }
+
+  /* Hide scrollbar on scrollable link section */
+  .navbar-link-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .navbar-link-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>
+
+<nav class="navbar bg-white bg-opacity-95 shadow-sm py-1 px-2 px-md-4 custom-navbar border-bottom">
+  <div class="container-fluid flex-nowrap align-items-center justify-content-between p-0 px-sm-2">
+    
+    <!-- Brand / Logo -->
+    <a class="navbar-brand navbar-brand-large me-2 me-md-4 d-flex align-items-center py-0 offset-md-1" href="/quickplots">
+      <img src="/images/logo.png" alt="Quickplots Logo" class="img-fluid">
+    </a>
+
+    <!-- Center Links (Scrollable horizontally on mobile) -->
+    <div class="navbar-link navbar-link-scroll overflow-auto me-auto offset-md-1 px-1">
+      <ul class="navbar-nav flex-row gap-2 gap-md-4 align-items-center text-nowrap my-0">
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom py-1 px-1 px-md-2" href="/quickplots">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom py-1 px-1 px-md-2" href="/quickplots/post">Property</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom py-1 px-1 px-md-2" href="/quickplots/info">Quickplot Go</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-custom py-1 px-1 px-md-2" href="/quickplots/contact">Get in Touch</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Right Actions -->
+    <div class="d-flex align-items-center gap-2 gap-md-3 ms-1 ms-sm-2 flex-shrink-0">
+      
+      <!-- Quick Add Button -->
+      <div class="add">
+        <a href="/quickplots/new" class="btn btn-add" title="Add New Property">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </div>
+
+      <!-- Profile / Account Dropdown Wrapper -->
+      <div class="user-dropdown-container">
+        
+        <% if(currUser){ %>
+          <!-- Logged In State: Profile Pill with Avatar -->
+          <button class="btn btn-profile-pill" type="button" id="userMenuBtn">
+            <img 
+              src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(currUser.first_name + ' ' + currUser.last_name) %>&background=f17649&color=fff&size=128" 
+              alt="<%= currUser.first_name %>" 
+              class="user-avatar-img"
+            >
+            <span class="fw-semibold text-dark fs-6 d-none d-sm-inline">
+              <%= currUser.first_name %>
+            </span>
+            <i class="fa-solid fa-chevron-down text-muted small ms-1"></i>
+          </button>
+        <% } else { %>
+          <!-- Logged Out State: Account Button -->
+          <button class="btn btn-profile-pill px-2 px-sm-3" type="button" id="userMenuBtn">
+            <i class="fa-solid fa-circle-user fs-5 text-muted"></i>
+            <span class="fw-semibold text-dark fs-6 d-none d-sm-inline ms-1">Account</span>
+            <i class="fa-solid fa-chevron-down text-muted small ms-1"></i>
+          </button>
+        <% } %>
+
+        <!-- Dropdown Menu Options -->
+        <ul class="user-dropdown-menu" id="userDropdownMenu">
+          
+          <% if(!currUser){ %>
+            <li>
+              <a class="dropdown-item gap-2" href="/users/login">
+                <i class="fa-solid fa-right-to-bracket text-primary"></i>
+                <span>Log In</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item gap-2" href="/users/signup">
+                <i class="fa-solid fa-user-plus text-success"></i>
+                <span>Sign Up</span>
+              </a>
+            </li>
+          <% } %>
+
+          <% if(currUser){ %>
+            <li class="px-3 py-2 border-bottom mb-1">
+              <span class="d-block text-muted small fw-semibold">Logged in as</span>
+              <strong class="text-dark d-block text-truncate" style="max-width: 170px;">
+                <%= currUser.first_name %> <%= currUser.last_name %>
+              </strong>
+              <small class="text-muted d-block text-truncate">@<%= currUser.username %></small>
+            </li>
+            
+            <li>
+              <a class="dropdown-item gap-2" href="/users/profile">
+                <i class="fa-solid fa-user-gear text-primary"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item gap-2" href="/quickplots/myposts">
+                <i class="fa-solid fa-landmark text-primary"></i>
+                <span>My property</span>
+              </a>
+            </li>
+            
+            <li><hr class="dropdown-divider my-1"></li>
+            
+            <li>
+              <a class="dropdown-item gap-2 text-danger" href="/quickplots/logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Log Out</span>
+              </a>
+            </li>
+          <% } %>
+
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</nav>
+
+<!-- Guaranteed Pure JS Dropdown Toggle Handler -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("userMenuBtn");
+    const menu = document.getElementById("userDropdownMenu");
+
+    if (btn && menu) {
+      // Toggle dropdown on click
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        menu.classList.toggle("active");
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          menu.classList.remove("active");
+        }
+      });
+    }
+  });
+</script>

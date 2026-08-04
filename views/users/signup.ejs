@@ -1,0 +1,453 @@
+<%= layout("./layouts/boilerPlate") %>
+
+<style>
+  :root {
+    --brand-primary: #f17649;
+    --brand-hover: #ff8c42;
+    --brand-dark: #d9531e;
+    --brand-gradient: linear-gradient(135deg, #f06bad 0%, #f17649 100%);
+    --surface-bg: rgba(255, 255, 255, 0.95);
+    --surface-muted: #f8fafc;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border-subtle: #e2e8f0;
+    --shadow-card: 0 25px 60px -15px rgba(15, 23, 42, 0.25);
+  }
+
+  /* Page Canvas */
+  body {
+    background-color: #0f172a;
+    background-image: 
+      radial-gradient(circle at 15% 15%, rgba(240, 107, 173, 0.18) 0%, transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(241, 118, 73, 0.18) 0%, transparent 45%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  /* Full-Width Shell Card */
+  .signup-card-wide {
+    background: var(--surface-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 28px !important;
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Glowing Top Bar */
+  .card-top-bar {
+    height: 6px;
+    background: linear-gradient(90deg, #f06bad, #f17649, #ff8c42);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Left Panel: Hero Banner */
+  .hero-panel-box {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 22px;
+    padding: 2.25rem;
+    color: #ffffff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hero-feature-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    transition: background-color 0.2s ease;
+  }
+
+  .hero-feature-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Header Badges & Titles */
+  .signup-badge {
+    background: rgba(241, 118, 73, 0.12);
+    color: var(--brand-primary);
+    font-size: 0.725rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    padding: 0.4rem 0.9rem;
+    border-radius: 50px;
+    border: 1px solid rgba(241, 118, 73, 0.2);
+    display: inline-block;
+  }
+
+  .form-heading {
+    font-weight: 800;
+    font-size: clamp(1.85rem, 3.5vw, 2.4rem);
+    background: var(--brand-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.025em;
+  }
+
+  /* Form Labels & Icon Groups */
+  .form-label-custom {
+    font-weight: 700 !important;
+    font-size: 0.775rem !important;
+    color: #475569 !important;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .input-icon-wrapper {
+    position: relative;
+  }
+
+  .input-icon-wrapper .icon-left {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 1rem;
+    z-index: 5;
+    transition: color 0.2s ease;
+  }
+
+  .input-icon-wrapper:focus-within .icon-left {
+    color: var(--brand-primary);
+  }
+
+  /* Inputs Control */
+  .form-control-wide {
+    border: 1.5px solid var(--border-subtle);
+    border-radius: 14px !important;
+    height: 3.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background-color: var(--surface-muted);
+    color: var(--text-dark);
+    padding-left: 3rem !important;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  /* Strict Border-Only Focus State (No Glow / No Shadow) */
+  .form-control-wide:focus {
+    background-color: #ffffff !important;
+    border-color: var(--brand-primary) !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Password Toggle Button */
+  .toggle-password-btn {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 6px 10px;
+    z-index: 5;
+    transition: color 0.2s ease;
+  }
+
+  .toggle-password-btn:hover {
+    color: var(--brand-primary);
+  }
+
+  /* Password Strength Indicator */
+  .strength-meter-container {
+    height: 4px;
+    background-color: var(--border-subtle);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .strength-meter-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+  }
+
+  .strength-label-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Navigation Link */
+  .signin-link {
+    text-decoration: none;
+    color: var(--brand-primary);
+    font-weight: 700;
+    transition: color 0.2s ease;
+  }
+
+  .signin-link:hover {
+    color: var(--brand-dark);
+    text-decoration: underline;
+  }
+
+  /* Submit Action Button */
+  .signup-btn {
+    width: 100%;
+    height: 3.6rem;
+    background: linear-gradient(135deg, #f17649 0%, #d9531e 100%) !important;
+    color: #ffffff !important;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none !important;
+    border-radius: 16px;
+    letter-spacing: 0.02em;
+    box-shadow: 0 10px 22px -4px rgba(241, 118, 73, 0.4);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .signup-btn:hover {
+    background: linear-gradient(135deg, #f06bad 0%, #f17649 100%) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -4px rgba(240, 107, 173, 0.45) !important;
+  }
+
+  /* Validation Feedback Overrides */
+  .was-validated .form-control:valid {
+    border-color: #198754 !important;
+  }
+
+  .was-validated .form-control:invalid {
+    border-color: #dc3545 !important;
+  }
+</style>
+
+<body>
+  <div class="container-fluid px-3 px-md-5 my-4 my-md-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        
+        <!-- Wide Glassmorphic Shell Card -->
+        <div class="signup-card-wide p-4 p-md-5">
+          <div class="card-top-bar"></div>
+
+          <!-- Header Section -->
+          <div class="mb-4">
+            <span class="signup-badge mb-2">QUICKPLOT REGISTRATION</span>
+            <h1 class="form-heading mb-1">Create Your Account</h1>
+            <p class="text-muted small mb-0 fw-medium fs-6">
+              Already have an account? 
+              <a href="/users/login" class="signin-link">Sign in to your account</a>
+            </p>
+          </div>
+
+          <form 
+            method="post" 
+            action="/users/signup"
+            class="needs-validation" 
+            novalidate
+          >
+            <div class="row g-4 align-items-stretch">
+              
+              <!-- Left Column: Hero Benefits Banner -->
+              <div class="col-12 col-lg-5">
+                <div class="hero-panel-box">
+                  <div>
+                    <span class="badge bg-warning text-dark fw-bold mb-3" style="font-size: 0.65rem; text-transform: uppercase;">
+                      MEMBER BENEFITS
+                    </span>
+                    <h4 class="fw-bold text-white mb-2">Join India's Plot Marketplace</h4>
+                    <p class="small mb-4" style="color: #cbd5e1; line-height: 1.5;">
+                      Publish property listings, receive verified buyer leads, and manage inquiries seamlessly.
+                    </p>
+
+                    <div class="d-flex flex-column gap-3">
+                      <div class="hero-feature-item d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-bolt text-warning fs-4"></i>
+                        <div>
+                          <h6 class="text-white fw-bold mb-0 small">Instant Inquiries</h6>
+                          <small style="color: #cbd5e1; font-size: 0.78rem;">Receive direct WhatsApp & Call leads from buyers.</small>
+                        </div>
+                      </div>
+
+                      <div class="hero-feature-item d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-shield-halved text-success fs-4"></i>
+                        <div>
+                          <h6 class="text-white fw-bold mb-0 small">Verified Listing Shield</h6>
+                          <small style="color: #cbd5e1; font-size: 0.78rem;">Build buyer trust with verified account badges.</small>
+                        </div>
+                      </div>
+
+                      <div class="hero-feature-item d-flex align-items-center gap-3">
+                        <i class="fa-solid fa-chart-line text-info fs-4"></i>
+                        <div>
+                          <h6 class="text-white fw-bold mb-0 small">Live View Analytics</h6>
+                          <small style="color: #cbd5e1; font-size: 0.78rem;">Track buyer interest on your dashboard in real time.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Seller Guarantee Box -->
+                  <div class="p-3 rounded-4 mt-4" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08);">
+                    <div class="d-flex align-items-center gap-2 text-warning fw-bold small text-uppercase mb-1">
+                      <i class="fa-solid fa-circle-check text-success"></i>
+                      <span>100% Free Forever</span>
+                    </div>
+                    <p class="small mb-0" style="color: #cbd5e1; font-size: 0.8rem;">
+                      Creating an account gives you unlimited listing access with zero hidden fees.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Column: Wide Registration Form Controls -->
+              <div class="col-12 col-lg-7">
+                
+                <!-- First Name & Last Name Grid -->
+                <div class="row g-3 mb-3">
+                  <div class="col-12 col-md-6">
+                    <label for="first-name" class="form-label-custom mb-1.5 d-block">First Name *</label>
+                    <div class="input-icon-wrapper">
+                      <i class="fa-solid fa-user icon-left"></i>
+                      <input
+                        type="text"
+                        class="form-control form-control-wide"
+                        id="first-name"
+                        placeholder="e.g. John"
+                        name="first_name"
+                        required
+                      />
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">First name is required.</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="last-name" class="form-label-custom mb-1.5 d-block">Last Name *</label>
+                    <div class="input-icon-wrapper">
+                      <i class="fa-solid fa-user-tag icon-left"></i>
+                      <input
+                        type="text"
+                        class="form-control form-control-wide"
+                        id="last-name"
+                        placeholder="e.g. Doe"
+                        name="last_name"
+                        required
+                      />
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Last name is required.</div>
+                  </div>
+                </div>
+
+                <!-- Username & Phone Grid -->
+                <div class="row g-3 mb-3">
+                  <div class="col-12 col-md-6">
+                    <label for="username" class="form-label-custom mb-1.5 d-block">Username *</label>
+                    <div class="input-icon-wrapper">
+                      <i class="fa-solid fa-at icon-left"></i>
+                      <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control form-control-wide"
+                        placeholder="johndoe"
+                        required
+                      />
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Username is required.</div>
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <label for="number" class="form-label-custom mb-1.5 d-block">Contact Phone *</label>
+                    <div class="input-icon-wrapper">
+                      <i class="fa-solid fa-phone icon-left"></i>
+                      <input
+                        type="tel"
+                        id="number"
+                        name="number"
+                        class="form-control form-control-wide"
+                        placeholder="10-digit number"
+                        required
+                        pattern="\d{10}"
+                        maxlength="10"
+                      />
+                    </div>
+                    <div class="valid-feedback">Looks good!</div>
+                    <div class="invalid-feedback">Valid 10-digit phone required.</div>
+                  </div>
+                </div>
+
+                <!-- Email Address -->
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label-custom mb-1.5 d-block">Email Address *</label>
+                  <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-envelope icon-left"></i>
+                    <input
+                      type="email"
+                      id="exampleInputEmail1"
+                      name="email_id"
+                      class="form-control form-control-wide"
+                      placeholder="you@example.com"
+                      required
+                    />
+                  </div>
+                  <div class="valid-feedback">Looks good!</div>
+                  <div class="invalid-feedback">Valid email address is required.</div>
+                </div>
+
+                <!-- Password Field with Real-time Strength Evaluator & Eye Toggle -->
+                <div class="mb-4">
+                  <div class="d-flex justify-content-between align-items-center mb-1.5">
+                    <label for="password" class="form-label-custom mb-0">Password *</label>
+                  </div>
+
+                  <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock icon-left"></i>
+                    <input
+                      type="password"
+                      id="password"
+                      name="password"
+                      class="form-control form-control-wide"
+                      style="padding-right: 2.75rem !important;"
+                      placeholder="•••••••••"
+                      required
+                    />
+                    
+                  </div>
+
+
+                  <div class="valid-feedback">Looks good!</div>
+                  <div class="invalid-feedback">Password is required.</div>
+                </div>
+
+                <!-- Action Button -->
+                <button 
+                  type="submit" 
+                  class="btn signup-btn d-flex align-items-center justify-content-center gap-2"
+                >
+                  <i class="fa-solid fa-user-plus fs-5"></i>
+                  <span>Create Account & Start Listing</span>
+                </button>
+
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</body>

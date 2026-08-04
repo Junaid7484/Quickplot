@@ -1,0 +1,242 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container my-4 my-md-5 stylish-canvas">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xl-10">
+      <div class="stylish-card p-4 p-md-5">
+        <!-- Header -->
+        <div class="mb-4 text-center">
+          <span class="badge-gradient mb-2">Create Post</span>
+          <h2 class="stylish-title mb-1">Create Property Listing</h2>
+          <p class="text-muted small mb-0">
+            Fill in the property details below to connect with active buyers.
+          </p>
+        </div>
+
+        <form
+          action="/quickplots"
+          method="post"
+          class="needs-validation"
+          novalidate
+          enctype="multipart/form-data"
+        >
+          <div class="row g-4">
+            <!-- Left Side: Form Input Fields -->
+            <div class="col-12 col-md-7">
+              <!-- Property Title -->
+              <div class="mb-3">
+                <label for="title" class="stylish-label d-block"
+                  >Property Title *</label
+                >
+                <div class="input-icon-group">
+                  <i class="fa-solid fa-heading"></i>
+                  <input
+                    type="text"
+                    class="form-control stylish-input"
+                    name="title"
+                    id="title"
+                    placeholder="e.g. 2000 Sqft Corner Plot"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Seller Name & Phone -->
+              <div class="row g-3 mb-3">
+                <div class="col-12 col-sm-6">
+                  <label for="name" class="stylish-label d-block"
+                    >Seller Name *</label
+                  >
+                  <div class="input-icon-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input
+                      type="text"
+                      class="form-control stylish-input"
+                      name="name"
+                      id="name"
+                      placeholder="John Doe"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label for="number" class="stylish-label d-block"
+                    >Contact Phone *</label
+                  >
+                  <div class="input-icon-group">
+                    <i class="fa-solid fa-phone"></i>
+                    <input
+                      type="tel"
+                      class="form-control stylish-input"
+                      name="contact"
+                      id="number"
+                      placeholder="10-digit number"
+                      required
+                      pattern="\d{10}"
+                      maxlength="10"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Upload Image Section -->
+              <div class="mb-3">
+                <label for="image" class="stylish-label d-block"
+                  >Upload Image *</label
+                >
+                <div class="input-icon-group">
+                  <i class="fa-solid fa-image"></i>
+                  <input
+                    type="file"
+                    class="form-control stylish-input"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- Asking Price & Location -->
+              <div class="row g-3 mb-4">
+                <div class="col-12 col-sm-6">
+                  <label for="price" class="stylish-label d-block"
+                    >Asking Price (&#8377;) *</label
+                  >
+                  <div class="input-icon-group">
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                    <input
+                      type="number"
+                      class="form-control stylish-input"
+                      id="price"
+                      name="price"
+                      placeholder="2500000"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                  <label for="location" class="stylish-label d-block"
+                    >Location *</label
+                  >
+                  <div class="input-icon-group">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <input
+                      type="text"
+                      class="form-control stylish-input"
+                      id="location"
+                      name="location"
+                      placeholder="City, State"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                type="submit"
+                class="btn stylish-btn w-100 d-flex align-items-center justify-content-center gap-2"
+              >
+                <i class="fa-solid fa-paper-plane fs-5"></i>
+                <span>Publish Property Listing</span>
+              </button>
+            </div>
+
+            <!-- Right Side: Live Interactive Card Preview -->
+            <div class="col-12 col-md-5">
+              <div
+                class="preview-card-box h-100 d-flex flex-column justify-content-between"
+              >
+                <div>
+                  <label class="stylish-label d-block mb-2"
+                    >Live Buyer Display</label
+                  >
+
+                  <div class="preview-img-wrapper mb-3">
+                    <span class="preview-badge-overlay">
+                      <i class="fa-solid fa-eye me-1"></i> Live Card
+                    </span>
+                    <img
+                      id="imgPreview"
+                      src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80"
+                      alt="Preview"
+                      class="stylish-preview-img"
+                    />
+                  </div>
+
+                  <div class="preview-info-card">
+                    <h6
+                      id="previewTitle"
+                      class="fw-bold text-dark mb-1 text-truncate"
+                    >
+                      Property Title
+                    </h6>
+                    <p id="previewLocation" class="text-muted small mb-2">
+                      <i class="fa-solid fa-location-dot me-1 text-danger"></i>
+                      Location
+                    </p>
+                    <div id="previewPrice" class="fw-bold text-dark fs-5">
+                      &#8377; 0
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="p-2.5 mt-3 rounded-3 bg-white border text-muted small d-flex align-items-center gap-2"
+                >
+                  <i class="fa-solid fa-circle-check text-success fs-6"></i>
+                  <span>Fast Verification Guaranteed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const imageInput = document.getElementById("image");
+  const titleInput = document.getElementById("title");
+  const priceInput = document.getElementById("price");
+  const locationInput = document.getElementById("location");
+  const defaultImgUrl =
+    "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80";
+
+  // Live image file preview with object URL fallback
+  if (imageInput) {
+    imageInput.addEventListener("change", (e) => {
+      const [file] = e.target.files;
+      if (file) {
+        document.getElementById("imgPreview").src = URL.createObjectURL(file);
+      } else {
+        document.getElementById("imgPreview").src = defaultImgUrl;
+      }
+    });
+  }
+
+  // Live text input listeners
+  if (titleInput) {
+    titleInput.addEventListener("input", (e) => {
+      document.getElementById("previewTitle").textContent =
+        e.target.value.trim() || "Property Title";
+    });
+  }
+
+  if (priceInput) {
+    priceInput.addEventListener("input", (e) => {
+      const val = Number(e.target.value);
+      document.getElementById("previewPrice").innerHTML =
+        `&#8377; ${val ? val.toLocaleString("en-IN") : "0"}`;
+    });
+  }
+
+  if (locationInput) {
+    locationInput.addEventListener("input", (e) => {
+      document.getElementById("previewLocation").innerHTML =
+        `<i class="fa-solid fa-location-dot me-1 text-danger"></i> ${e.target.value.trim() || "Location"}`;
+    });
+  }
+</script>

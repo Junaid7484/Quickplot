@@ -1,0 +1,142 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Hero Section & Dynamic Search -->
+<section class="catalog-hero mb-4">
+  <div class="container-fluid px-4 px-md-5">
+    <div class="row align-items-center g-3">
+      <div class="col-12 col-md-6">
+        <h1 class="catalog-title mb-1">All Listed Properties</h1>
+        <p class="text-muted mb-0">Explore transparent, verified land listings and plot investments across India.</p>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="filter-bar">
+          <form id="searchForm" onsubmit="event.preventDefault(); performSearch();">
+            <div class="search-input-group">
+              <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input 
+                  type="text" 
+                  id="propertySearch" 
+                  class="form-control" 
+                  placeholder="Search by plot title, location, or state..."
+                  autocomplete="off"
+                />
+              </div>
+              <button type="submit" class="btn search-btn d-inline-flex align-items-center gap-2">
+                <span>Search</span>
+                <i class="fa-solid fa-arrow-right small"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cards Grid Container -->
+<div class="container-fluid px-4 px-md-5 mb-5">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4" id="propertyGrid">
+    <% for (let quickplot of quickplots) { %>
+      <div class="col d-flex property-card-item">
+        <div class="card property-card w-100 d-flex flex-column h-100">
+          <a href="/quickplots/<%= quickplot._id %>" class="text-decoration-none d-flex flex-column h-100">
+            
+            <!-- Image Section -->
+            <div class="property-img-wrapper">
+              <span class="badge-verified d-flex align-items-center gap-1.5">
+                <i class="fa-solid fa-circle-check text-success"></i> Verified Plot
+              </span>
+              <img 
+                src="<%= quickplot.image && quickplot.image.url ? quickplot.image.url : '..' %>" 
+                class="property-img" 
+                alt="<%= quickplot.title %>" 
+              />
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body p-4 d-flex flex-column justify-content-between flex-grow-1">
+              <div>
+                <h3 class="property-title text-truncate" title="<%= quickplot.title %>">
+                  <%= quickplot.title %>
+                </h3>
+                
+                <div class="d-flex align-items-center gap-2 mb-3">
+                  <i class="fa-solid fa-location-dot" style="color: #f17649;"></i>
+                  <span class="location-badge text-truncate">
+                    <%= quickplot.location || 'Location Not Specified' %>
+                  </span>
+                </div>
+              </div>
+
+              <div class="border-top pt-3 mt-auto">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <span class="price-caption d-block">Starting From</span>
+                    <span class="property-price">
+                      &#8377; <%= quickplot.price ? quickplot.price.toLocaleString("en-IN") : "N/A" %>
+                    </span>
+                  </div>
+
+                  <button type="button" class="btn view-details-btn d-inline-flex align-items-center gap-2">
+                    <span>View Details</span>
+                    <i class="fa-solid fa-arrow-right small"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </a>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- No Results Placeholder inside Grid -->
+    <div id="noResults" class="col-12 d-none flex-column align-items-center justify-content-center text-center py-5 mx-auto">
+      <i class="fa-solid fa-magnifying-glass text-muted mb-3 fs-1 fs-md-1" style="font-size: 6rem !important;"></i>
+      <h4 class="text-muted fw-semibold">No properties found</h4>
+      <p class="text-muted small mb-0">Try searching with a different title or location.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function performSearch() {
+    const searchInput = document.getElementById("propertySearch");
+
+    const query = searchInput.value.toLowerCase().trim();
+    const cards = document.querySelectorAll(".property-card-item");
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const title = card.querySelector(".property-title")?.innerText.toLowerCase() || "";
+      const location = card.querySelector(".location-badge")?.innerText.toLowerCase() || "";
+
+      // Check if title or location matches search term
+      if (title.includes(query) || location.includes(query)) {
+        card.classList.remove("d-none");
+        visibleCount++;
+      } else {
+        card.classList.add("d-none");
+      }
+    });
+
+    // Display "No Results" message if no cards match
+    const noResults = document.getElementById("noResults");
+    if (noResults) {
+      if (visibleCount === 0) {
+        noResults.classList.remove("d-none");
+      } else {
+        noResults.classList.add("d-none");
+      }
+    }
+  }
+
+  // Attach live input event listener
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("propertySearch");
+    if (searchInput) {
+      searchInput.addEventListener("input", performSearch);
+    }
+  });
+</script>

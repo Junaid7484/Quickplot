@@ -1,0 +1,257 @@
+
+  :root {
+    --brand-primary: #f17649;
+    --brand-hover: #ff8c42;
+    --brand-gradient: linear-gradient(
+      135deg,
+      #f06bad 0%,
+      #f17649 50%,
+      #ff8c42 100%
+    );
+  }
+
+  /* Ambient Background Canvas */
+  .contact-wrapper {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 100%;
+    border-radius: 28px;
+    padding: 0.5rem 0.25rem;
+  }
+
+  /* Ambient Glow Spheres */
+  .contact-wrapper::before,
+  .contact-wrapper::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    pointer-events: none;
+    max-width: 100%;
+  }
+
+  .contact-wrapper::before {
+    width: 320px;
+    height: 320px;
+    top: -40px;
+    left: 0;
+  }
+
+  .contact-wrapper::after {
+    width: 340px;
+    height: 340px;
+    bottom: -40px;
+    right: 0;
+    background: rgba(241, 118, 73, 0.18);
+  }
+
+  /* Dark Glassmorphism Cards */
+  .glass-card {
+    background: rgba(18, 24, 38, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 28px !important;
+    box-shadow:
+      0 30px 60px -12px rgba(0, 0, 0, 0.4),
+      0 18px 36px -18px rgba(241, 118, 73, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Header Title Gradient */
+  .section-title-gradient {
+    font-weight: 800;
+    font-size: clamp(2.3rem, 5vw, 3.2rem);
+    background: linear-gradient(135deg, #e7e4e4 0%, #9bb3d3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.03em;
+  }
+
+  .card-heading {
+    font-weight: 800;
+    font-size: 1.4rem;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    position: relative;
+    padding-bottom: 0.85rem;
+  }
+
+  .card-heading::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 4px;
+    background: var(--brand-gradient);
+    border-radius: 4px;
+  }
+
+  /* Info Items & Badges */
+  .contact-icon-badge {
+    width: 48px;
+    height: 48px;
+    background: rgba(241, 118, 73, 0.12) !important;
+    color: var(--brand-primary) !important;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .info-item {
+    padding: 10px 12px;
+    border-radius: 16px;
+    transition: all 0.25s ease;
+  }
+
+  .info-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateX(4px);
+  }
+
+  .info-item:hover .contact-icon-badge {
+    background: linear-gradient(135deg, #f17649 0%, #d9531e 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 18px rgba(241, 118, 73, 0.4);
+  }
+
+  /* Social Media Action Buttons */
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #94a3b8 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.05rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .social-btn:hover {
+    background: linear-gradient(135deg, #f17649 0%, #d9531e 100%) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(241, 118, 73, 0.4);
+  }
+
+  /* Form Labels & Controls */
+  .form-label-custom {
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .input-icon-group {
+    position: relative;
+  }
+
+  .input-icon-group i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 1.05rem;
+    z-index: 5;
+    transition: color 0.2s ease;
+  }
+
+  .input-icon-group.textarea-icon i {
+    top: 22px;
+    transform: none;
+  }
+
+  .input-icon-group:focus-within i {
+    color: orangered;
+  }
+
+  .contact-form .form-control-custom,
+  .contact-form .form-select-custom {
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px !important;
+    background-color: rgba(15, 23, 42, 0.6);
+    color: #f8fafc;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding-left: 3rem !important;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .contact-form .form-control-custom::placeholder {
+    color: #475569;
+  }
+
+  .contact-form input.form-control-custom,
+  .contact-form select.form-select-custom {
+    height: 3.5rem;
+  }
+
+  .contact-form textarea.form-control-custom {
+    min-height: 130px;
+    padding-top: 1rem;
+    resize: vertical;
+  }
+
+  .contact-form .form-control-custom:focus,
+  .contact-form .form-select-custom:focus {
+    background-color: rgba(15, 23, 42, 0.9) !important;
+    border-color: orangered !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Submit Button */
+  .send-message-btn {
+    height: 3.6rem;
+    border-radius: 14px !important;
+    font-size: 1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f17649 0%, #d9531e 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    letter-spacing: 0.03em;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .send-message-btn:hover {
+    background: linear-gradient(135deg, #ff8c42 0%, #f17649 100%) !important;
+    transform: translateY(-2px);
+  }
+
+  /* Map Banner Box */
+  .map-preview-banner {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 1.25rem;
+  }
+
+  /* Responsive Map Section Canvas */
+  #map {
+    width: 100%;
+    height: 380px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 768px) {
+    #map {
+      height: 300px;
+    }
+  }

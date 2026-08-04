@@ -1,0 +1,129 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container my-4 my-md-5" style="max-width: 680px;">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="stylish-card p-4 p-md-5">
+        <!-- Section Header -->
+        <div class="mb-4 text-center">
+          <span class="badge-gradient mb-2">Update Details</span>
+          <h2 class="stylish-title mb-1">Edit Property Details</h2>
+          <p class="text-muted small mb-0">
+            Modify the information for your listed property post below.
+          </p>
+        </div>
+
+        <form
+          action="/quickplots/<%= quickplot._id %>?_method=PUT"
+          method="POST"
+          class="needs-validation"
+          novalidate
+          enctype="multipart/form-data"
+        >
+          <!-- Property Title -->
+          <div class="mb-3">
+            <label for="title" class="stylish-label d-block">Property Title *</label>
+            <div class="input-icon-group">
+              <i class="fa-solid fa-heading"></i>
+              <input
+                type="text"
+                class="form-control stylish-input"
+                name="title"
+                id="title"
+                value="<%= quickplot.title %>"
+                placeholder="e.g. 2000 Sqft Corner Plot"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Contact Phone Number -->
+          <div class="mb-3">
+            <label for="number" class="stylish-label d-block">Contact Phone *</label>
+            <div class="input-icon-group">
+              <i class="fa-solid fa-phone"></i>
+              <input
+                type="tel"
+                class="form-control stylish-input"
+                name="contact"
+                id="number"
+                value="<%= quickplot.contact %>"
+                placeholder="10-digit number"
+                required
+                pattern="\d{10}"
+                maxlength="10"
+              />
+            </div>
+          </div>
+
+          <!-- File Upload Field -->
+          <div class="mb-3">
+            <label for="image" class="stylish-label d-block">Upload New Image (Optional)</label>
+            <div class="input-icon-group">
+              <i class="fa-solid fa-image"></i>
+              <input
+                type="file"
+                class="form-control stylish-input"
+                id="image"
+                name="image"
+                accept="image/*"
+              />
+            </div>
+          </div>
+
+          <!-- Price & Location Grid -->
+          <div class="row g-3 mb-4">
+            <div class="col-12 col-sm-6">
+              <label for="price" class="stylish-label d-block">Asking Price (&#8377;) *</label>
+              <div class="input-icon-group">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+                <input
+                  type="number"
+                  class="form-control stylish-input"
+                  id="price"
+                  name="price"
+                  value="<%= quickplot.price %>"
+                  placeholder="2500000"
+                  required
+                />
+              </div>
+            </div>
+            <div class="col-12 col-sm-6">
+              <label for="location" class="stylish-label d-block">Location *</label>
+              <div class="input-icon-group">
+                <i class="fa-solid fa-location-dot"></i>
+                <input
+                  type="text"
+                  class="form-control stylish-input"
+                  id="location"
+                  name="location"
+                  value="<%= quickplot.location %>"
+                  placeholder="City, State"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex flex-column gap-2 pt-1">
+            <button
+              type="submit"
+              class="btn stylish-btn w-100 d-flex align-items-center justify-content-center gap-2"
+            >
+              <i class="fa-solid fa-check fs-5"></i>
+              <span>Save & Update Listing</span>
+            </button>
+            <a 
+              href="/quickplots/<%= quickplot._id %>" 
+              class="btn btn-link text-muted fw-semibold text-decoration-none text-center btn-sm mt-1"
+            >
+              Cancel & Go Back
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

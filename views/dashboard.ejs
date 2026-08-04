@@ -1,0 +1,872 @@
+<%- layout("./layouts/boilerPlate") %>
+
+<style>
+  /* ==========================================
+     1. GLOBAL STICKY NAVBAR FIX & TOKENS
+  ========================================== */
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Safe container for horizontal overflow without breaking CSS sticky */
+  .page-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Sticky Navbar Guarantee */
+  .navbar, navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10000 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  /* ==========================================
+     MOVING NOTICE BAR (STUCK BELOW NAVBAR)
+  ========================================== */
+  .moving-notice-bar {
+    width: 100%;
+    background: #1e293b;
+    color: #ffffff;
+    font-size: 0.85rem;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    z-index: 9999;
+    border-bottom: 2px solid var(--brand-primary, #f17649);
+    padding: 0.5rem 0;
+  }
+
+  .moving-notice-track {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+  }
+
+  .moving-notice-track:hover {
+    animation-play-state: paused;
+    cursor: pointer;
+  }
+
+  .moving-notice-track span {
+    display: inline-block;
+    padding-right: 50px;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translate3d(100vw, 0, 0);
+    }
+    100% {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+
+  :root {
+    --brand-primary: #f17649;
+    --brand-dark: #d9531e;
+    --brand-gradient: linear-gradient(135deg, #f17649 0%, #d9531e 100%);
+    --accent-gradient: linear-gradient(135deg, #f17649 0%, #ed62a7 100%);
+    --dark-surface: #0b0f17;
+    --dark-surface-elevated: #151c28;
+    --bg-light: #f8fafc;
+    --card-bg: #ffffff;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border-subtle: #e2e8f0;
+    --radius-3xl: 32px;
+    --radius-2xl: 24px;
+    --radius-xl: 16px;
+    --radius-lg: 12px;
+    --shadow-soft: 0 10px 30px -5px rgba(15, 23, 42, 0.05);
+    --shadow-elevated: 0 20px 40px -10px rgba(15, 23, 42, 0.12);
+    --shadow-glow: 0 20px 40px -10px rgba(241, 118, 73, 0.25);
+  }
+
+  /* ==========================================
+     2. FULL-WIDTH HERO SECTION
+  ========================================== */
+  .hero-wrapper-100 {
+    width: 100%;
+    position: relative;
+    height: 560px;
+    background: var(--dark-surface);
+    overflow: hidden;
+  }
+
+  .hero-wrapper-100 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.85;
+    filter: brightness(0.85) contrast(1.1);
+    transition: transform 12s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hero-wrapper-100:hover img {
+    transform: scale(1.04);
+  }
+
+  /* Glassmorphism Floating Hero Card */
+  .hero-overlay-content {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(11, 15, 23, 0.88) 0%, rgba(11, 15, 23, 0.35) 100%);
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+  }
+
+  .hero-glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-3xl);
+    padding: 3rem;
+    max-width: 620px;
+    color: #ffffff;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+  }
+
+  .hero-btn-primary {
+    background: var(--brand-gradient);
+    color: #ffffff !important;
+    border: none;
+    box-shadow: 0 10px 25px rgba(241, 118, 73, 0.35);
+    transition: all 0.3s ease;
+  }
+
+  .hero-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(241, 118, 73, 0.5);
+  }
+
+  /* ==========================================
+     3. QUICK SERVICES STRIP
+  ========================================== */
+  .services-strip-100 {
+    width: 100%;
+    background: #ffffff;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-soft);
+    padding: 2.25rem 0;
+  }
+
+  .services-grid-container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75rem;
+  }
+
+  .service-item-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.35rem 1.6rem;
+    background: #f8fafc;
+    border-radius: var(--radius-2xl);
+    border: 1px solid var(--border-subtle);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .service-item-card:hover {
+    background: #ffffff;
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-elevated);
+    border-color: var(--brand-primary);
+  }
+
+  .service-img {
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+    flex-shrink: 0;
+    transition: transform 0.4s ease;
+  }
+
+  .service-item-card:hover .service-img {
+    transform: scale(1.12);
+  }
+
+  /* ==========================================
+     GLASS SEARCH FORM
+  ========================================== */
+  .search-form-container {
+    padding: 0.5rem;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    margin: 1.25rem 0;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .search-form-container:focus-within {
+    border-color: rgba(241, 118, 73, 0.6);
+    box-shadow: 0 12px 35px rgba(241, 118, 73, 0.2);
+  }
+
+  .glass-input-pill {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 14px;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.25s ease;
+  }
+
+  .glass-input-pill:focus-within {
+    background: #ffffff;
+    border-color: var(--brand-primary, #f17649);
+    box-shadow: 0 0 0 3px rgba(241, 118, 73, 0.2);
+  }
+
+  .glass-input-pill .input-icon {
+    color: var(--brand-primary, #f17649);
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .glass-input-pill input,
+  .glass-input-pill select {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #0f172a;
+    width: 100%;
+    cursor: text;
+  }
+
+  .glass-input-pill select {
+    cursor: pointer;
+    padding-right: 0.5rem;
+  }
+
+  .glass-input-pill input::placeholder {
+    color: #64748b;
+    font-weight: 400;
+  }
+
+  .glass-search-btn {
+    background: linear-gradient(135deg, #f17649 0%, #d9531e 100%);
+    color: #ffffff !important;
+    border: none;
+    border-radius: 14px;
+    padding: 0.7rem 1.6rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(241, 118, 73, 0.35);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(241, 118, 73, 0.5);
+    background: linear-gradient(135deg, #d9531e 0%, #bd3e0d 100%);
+  }
+
+  /* ==========================================
+     4. TOP PROPERTIES SECTION
+  ========================================== */
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1.25rem;
+    background: rgba(241, 118, 73, 0.08);
+    color: var(--brand-primary);
+    font-weight: 700;
+    font-size: 0.775rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 50px;
+    border: 1px solid rgba(241, 118, 73, 0.2);
+  }
+
+  .card-slider-track {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 1rem 0.25rem 1.5rem 0.25rem;
+    scrollbar-width: none;
+  }
+
+  .card-slider-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .property-card {
+    flex: 0 0 320px;
+    background: #ffffff;
+    border-radius: 16px !important;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+
+  .property-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .property-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 220px;
+    background-color: #f1f5f9;
+  }
+
+  .property-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .property-card:hover .property-img-wrapper img {
+    transform: scale(1.05);
+  }
+
+  .property-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10 !important;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffffff;
+    font-size: 0.725rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+  }
+
+  .location-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.825rem;
+    color: var(--text-muted);
+  }
+
+  .card-btns,
+  .property-card:hover .card-btns {
+    background-color: hotpink !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 1rem 1.2rem;
+    border-radius: 10px;
+    border: none !important;
+    transition: background-color 0.25s ease, transform 0.2s ease !important;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .card-btns:hover,
+  .property-card:hover .card-btns:hover {
+    opacity: 0.8 !important; 
+    transform: translateY(-1px);
+  }
+
+  .btn-more-properties {
+    background: var(--text-dark);
+    color: #ffffff;
+    font-weight: 600;
+    padding: 0.85rem 2.2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .btn-more-properties:hover {
+    background: var(--brand-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  /* ==========================================
+     5. DEMO VIDEO SECTION
+  ========================================== */
+  .video-card-container {
+    background: var(--dark-surface);
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 60px -15px rgba(15, 23, 42, 0.4);
+  }
+
+  /* ==========================================
+     6. WHY FAMILIES LOVE US
+  ========================================== */
+  .family-love-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.75rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .family-love-box {
+    background: #ffffff;
+    border-radius: var(--radius-2xl);
+    padding: 2.25rem 2rem;
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .family-love-box:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-elevated);
+    border-color: rgba(241, 118, 73, 0.35);
+  }
+
+  .family-love-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    background: rgb(72, 77, 175);
+    border-radius: var(--radius-xl);
+    color: #ffffff;
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 10px 22px rgba(241, 118, 73, 0.3);
+    transition: transform 0.4s ease;
+  }
+
+  .family-love-box:hover .family-love-icon {
+    transform: scale(1.1) rotate(3deg);
+  }
+
+  /* ==========================================
+     7. OVERVIEW STATS CARD
+  ========================================== */
+  .overview-wrapper {
+    max-width: 1200px;
+    margin: 4rem auto 2rem auto;
+  }
+
+  .overview-card {
+    background: radial-gradient(circle at 50% 0%, var(--dark-surface-elevated) 0%, var(--dark-surface) 100%);
+    border-radius: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 70px -15px rgba(15, 23, 42, 0.5);
+  }
+
+  .stat-hover-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-2xl);
+    padding: 2rem 1.5rem;
+    transition: all 0.4s ease;
+  }
+
+  .stat-hover-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(241, 118, 73, 0.5);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  }
+
+  .stat-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.85rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stat-hover-card:hover .stat-icon {
+    transform: scale(1.15); 
+  }
+
+  @media (max-width: 991px) {
+    .services-grid-container {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .hero-overlay-content {
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .hero-glass-card {
+      text-align: center;
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .property-card {
+      flex: 0 0 270px;
+    }
+
+    .hero-wrapper-100 {
+      height: 440px;
+    }
+  }
+</style>
+
+<body>
+
+  <div class="page-wrapper">
+    <!-- MOVING NOTICE BAR (JUST ABOVE HERO SECTION) -->
+    <div class="moving-notice-bar">
+      <div class="moving-notice-track">
+        <span>
+          <i class="fa-solid fa-bullhorn text-warning me-2"></i>
+          <strong>Notice:</strong> All listed land plots are pre-verified. Register now to post your property deals directly with buyers!
+        </span>
+        <span>
+          <i class="fa-solid fa-bullhorn text-warning me-2"></i>
+          <strong style="color: rgb(225, 96, 96);">Notice:</strong> For better experience use large screen!
+        </span>
+      </div>
+    </div>
+
+    <!-- 1. HERO BANNER -->
+    <div class="hero-wrapper-100">
+      <img src="/images/image1.png" alt="Land Measurement & Buying Property" />
+      
+      <div class="hero-overlay-content">
+        <div class="hero-glass-card">
+          <span class="badge bg-warning text-dark mb-2.5 px-3 py-1.5 rounded-pill fw-bold" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+            ⚡ PRE-CHECKED & VERIFIED PLOTS
+          </span>
+          <h1 class="fw-bold mb-2 display-6 text-white" style="line-height: 1.2;">
+            Find & Measure Your Ideal Land
+          </h1>
+          <p class="small text-white-50 mb-4 d-none d-sm-block">
+            Transparent pricing, legal documentation pre-check, and direct owner interaction guaranteed.
+          </p>
+          <form action="/quickplots/post" method="GET" class="search-form-container d-flex flex-column flex-md-row align-items-stretch gap-2.5 my-3">
+            
+            <div class="glass-input-pill flex-grow-1">
+              <i class="fa-solid fa-location-dot input-icon"></i>
+              <input type="text" name="search" placeholder="Enter city, locality, or area..." autocomplete="off" />
+            </div>
+
+            <div class="glass-input-pill d-none d-md-flex" style="min-width: 160px;">
+              <i class="fa-solid fa-indian-rupee-sign input-icon"></i>
+              <select name="maxPrice">
+                <option value="">Any Budget</option>
+                <option value="500000">Under ₹5 Lakhs</option>
+                <option value="1500000">Under ₹15 Lakhs</option>
+                <option value="5000000">Under ₹50 Lakhs</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn glass-search-btn d-inline-flex align-items-center justify-content-center gap-2">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Search</span>
+            </button>
+          </form>
+
+          <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+            <a href="/quickplots/post" class="btn hero-btn-primary fw-bold px-4 py-2.5 rounded-pill">
+              Explore Properties
+            </a>
+            <a href="/quickplots/new" class="btn btn-outline-light fw-bold px-4 py-2.5 rounded-pill">
+              List Property
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. QUICK SERVICES STRIP -->
+    <div class="services-strip-100 mb-5">
+      <div class="services-grid-container">
+        
+        <div class="service-item-card">
+          <img src="/images/image2.png" alt="Buy Land" class="service-img">
+          <div>
+            <h3 class="h6 fw-bold text-dark mb-1">Buy Land</h3>
+            <p class="small text-muted mb-0">Find your perfect plot with verified docs</p>
+          </div>
+        </div>
+
+        <div class="service-item-card">
+          <img src="/images/image3.png" alt="Sell Land" class="service-img">
+          <div>
+            <h3 class="h6 fw-bold text-dark mb-1">Sell Land</h3>
+            <p class="small text-muted mb-0">Get competitive market offers fast</p>
+          </div>
+        </div>
+
+        <div class="service-item-card">
+          <img src="/images/image4.png" alt="Invest in Land" class="service-img">
+          <div>
+            <h3 class="h6 fw-bold text-dark mb-1">Invest in Land</h3>
+            <p class="small text-muted mb-0">Grow your real estate portfolio</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 3. TOP PROPERTIES SECTION -->
+    <section class="container my-5 py-3">
+      <div class="text-center mb-4">
+        <span class="section-badge mb-2">
+          <i class="fa-solid fa-fire text-danger me-1"></i> Featured Listings
+        </span>
+        <h2 class="fw-bold text-dark display-6 mb-1">Our Top Properties</h2>
+        <p class="text-muted">Handpicked verified plots with prime growth potential</p>
+      </div>
+
+      <div class="card-slider-track">
+        <% quickplots.forEach(plot => { %>
+        <div class="card property-card">
+          <a href="/quickplots/<%= plot._id %>" class="text-decoration-none text-dark h-100 d-flex flex-column">
+            
+            <div class="property-img-wrapper">
+              <span class="property-badge">
+                <i class="fa-solid fa-circle-check text-success"></i> Verified Plot
+              </span>
+              <img src="<%= plot.image.url %>" alt="<%= plot.title %>" />
+            </div>
+
+            <div class="card-body d-flex flex-column justify-content-between p-3.5">
+              <div>
+                <h5 class="card-title fw-bold text-dark text-truncate mb-1" style="font-size: 1rem;">
+                  <%= plot.title %>
+                </h5>
+                <div class="location-chip text-truncate mb-3">
+                  <i class="fa-solid fa-location-dot" style="color: var(--brand-primary);"></i>
+                  <span class="text-truncate"><%= plot.location %></span>
+                </div>
+              </div>
+            
+              <div class="d-flex justify-content-between align-items-center pt-2.5 border-top">
+                <div>
+                  <span class="text-muted d-block" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">Starting From</span>
+                  <span class="fw-bold text-dark fs-6">&#8377; <%= plot.price ? plot.price.toLocaleString("en-IN") : "N/A" %></span>
+                </div>
+                <button class="btn card-btns">View Details</button>
+              </div>
+            </div>
+
+          </a>
+        </div>
+        <% }) %>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="/quickplots/post" class="btn btn-more-properties">
+          Explore All Properties <i class="fa-solid fa-arrow-right ms-2"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 4. DEMO VIDEO SECTION -->
+    <section class="py-5 bg-light my-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-10 col-lg-7 text-center">
+            
+            <span class="section-badge mb-2">
+              <i class="fa-solid fa-play me-1"></i> Platform Tour
+            </span>
+            <h2 class="fw-bold text-dark mb-2">See How QuickPlot Works</h2>
+            <p class="text-muted mb-4">Watch our short introduction to learn how to search, buy, and list property easily.</p>
+            
+            <div class="video-card-container mx-auto">
+              <div class="ratio ratio-16x9">
+                <video src="/images/quickplot.mp4" preload="auto" controls poster="/images/image1.png" style="object-fit: cover;"></video>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. WHY FAMILIES LOVE US -->
+    <section class="container py-4 my-4">
+      <div class="text-center mb-5">
+        <span class="section-badge mb-2">
+          <i class="fa-solid fa-heart text-danger me-1"></i> Why Choose Us
+        </span>
+        <h2 class="fw-bold text-dark display-6 mb-2">Why Families Love Us</h2>
+        <p class="text-muted fs-6 max-w-2xl mx-auto">
+          Discover why thousands of buyers and sellers trust us for seamless property deals
+        </p>
+      </div>
+
+      <div class="family-love-grid">
+        
+        <div class="family-love-box">
+          <div class="family-love-icon">
+            <i class="fa-solid fa-people-group"></i>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-2">Trusted Vendors</h3>
+          <p class="text-muted small mb-0">750+ verified vendors with complete background and identity verification.</p>
+        </div>
+
+        <div class="family-love-box">
+          <div class="family-love-icon">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-2">Best Deals</h3>
+          <p class="text-muted small mb-0">Exclusive property listings updated regularly with high growth prospects.</p>
+        </div>
+
+        <div class="family-love-box">
+          <div class="family-love-icon">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-2">Best Price Guarantee</h3>
+          <p class="text-muted small mb-0">Direct transparent pricing from sellers without hidden markup fees.</p>
+        </div>
+
+        <div class="family-love-box">
+          <div class="family-love-icon">
+            <i class="fa-solid fa-headset"></i>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-2">24/7 Support</h3>
+          <p class="text-muted small mb-0">Dedicated support team ready to assist with site visits and legal queries.</p>
+        </div>
+
+        <div class="family-love-box">
+          <div class="family-love-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-2">Verified Listings</h3>
+          <p class="text-muted small mb-0">Land boundaries and official registry papers pre-checked by legal experts.</p>
+        </div>
+
+        <div class="family-love-box">
+          <div class="family-love-icon">
+            <i class="fa-solid fa-mobile-screen"></i>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-2">Mobile Friendly</h3>
+          <p class="text-muted small mb-0">Seamlessly schedule property tours and contact owners from your mobile device.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="wrapper">
+      <div class="faq">
+        <div class="faq-head">
+          <div class="faq-head-icon"><i class="fa-regular fa-circle-question text-center"></i></div>
+          <div class="faq-head-h1 text-center"><h1>Frequently Asked Questions</h1></div>
+          <div class="faq-head-p text-center"><p>Everything you need to know about finding and booking kids activities on our platform</p></div>
+        </div>
+        
+        <div class="faq-question-section">
+          <button class="accordion-btn text-center">
+            <p>How do I post my property?</p>
+            <i class="fa-solid fa-angle-down"></i>
+          </button>
+          <div class="answer">
+            <p>First, Register on Quickplot and then click on plus (+) symbol shown in the navbar. Fill out your given details and submit.</p>
+          </div>
+          <button class="accordion-btn text-center">
+            <p>Are all the listed properties genuine?</p>
+            <i class="fa-solid fa-angle-down"></i>
+          </button>
+          <div class="answer">
+            <p>Yes, all listed properties are genuine and cross-checked before being listed on Quickplot.</p>
+          </div>
+          <button class="accordion-btn text-center">
+            <p>Does this platform provide competitive prices?</p>
+            <i class="fa-solid fa-angle-down"></i>
+          </button>
+          <div class="answer">
+            <p>Yes, QuickPlot is designed to give you competitive, direct market prices without extra middleman fees.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-section" style="margin-top: 5rem;">
+        <div class="still-question"><p>Still have questions?</p></div>
+        <a class="contact-support" href="/quickplots/contact" style="text-decoration: none; display: flex; justify-content: center; align-items: center; padding: 10px; border-radius: 10px; background-color: orangered; color: white; transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;">
+           <button style="font-weight: 600; background: transparent; border: none; color: white;">Contact support</button>
+        </a>
+      </div>
+    </section>
+
+    <!-- OVERVIEW STATS CARD -->
+    <section class="container overview-wrapper">
+      <div class="overview-card text-white p-4 p-md-5">
+        
+        <div class="row align-items-center mb-4">
+          <div class="col-12 col-md-3 text-center text-md-start mb-3 mb-md-0">
+            <span class="badge rounded-pill bg-primary text-white fw-bold px-3 py-2 shadow-sm d-inline-flex align-items-center gap-2" style="font-size: 0.75rem;">
+              <span class="spinner-grow spinner-grow-sm text-light" role="status" aria-hidden="true" style="width: 6px; height: 6px;"></span>
+              LIVE METRICS
+            </span>
+          </div>
+
+          <div class="col-12 col-md-6 text-center">
+            <h2 class="fw-bold mb-1 text-white h3">Platform Overview</h2>
+            <p class="text-secondary mb-0 small">Empowering smooth real estate transactions daily</p>
+          </div>
+
+          <div class="d-none d-md-block col-md-3"></div>
+        </div>
+
+        <div class="row g-3 g-md-4 text-center justify-content-center">
+          
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="stat-hover-card h-100 d-flex flex-column justify-content-center align-items-center">
+              <i class="fa-solid fa-layer-group text-primary stat-icon"></i>
+              <h3 class="fw-bold fs-2 mb-1 text-white">+<%= counter %></h3>
+              <p class="text-secondary mb-0 small fw-medium">Properties Listed</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="stat-hover-card h-100 d-flex flex-column justify-content-center align-items-center">
+              <i class="fa-solid fa-users text-success stat-icon"></i>
+              <h3 class="fw-bold fs-2 mb-1 text-white">+<%= totalUser %></h3>
+              <p class="text-secondary mb-0 small fw-medium">Registered Users</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="stat-hover-card h-100 d-flex flex-column justify-content-center align-items-center">
+              <i class="fa-solid fa-circle-check text-warning stat-icon"></i>
+              <h3 class="fw-bold fs-2 mb-1 text-white">+45</h3>
+              <p class="text-secondary mb-0 small fw-medium">Successful Deals</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+</body>

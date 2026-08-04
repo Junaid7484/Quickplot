@@ -1,0 +1,239 @@
+<%- layout("./layouts/boilerPlate") %>
+
+<style>
+  :root {
+    --accent-orange: orangered;
+    --accent-orange-hover: #ff2d00;
+    --dark-heading: #0f172a;
+    --text-body: #334155;
+    --border-neutral: #e2e8f0;
+    --bg-card: #ffffff;
+    --bg-page: #f8fafc;
+  }
+
+  /* Main Card Layout */
+  .profile-edit-wrapper {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-neutral);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+  }
+
+  /* Form Section Blocks */
+  .form-section-card {
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+    border-left: 4px solid var(--dark-heading);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  /* Clean Labels */
+  .custom-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-body);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  /* Professional Inputs (No complex floating effects) */
+  .form-control-custom {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--dark-heading);
+    background-color: #ffffff;
+    border: 1.5px solid var(--border-neutral);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  /* Sharp Orangered Border Effect On Click/Focus */
+  .form-control-custom:focus {
+    background-color: #ffffff !important;
+    border-color: orangered !important;
+
+  }
+
+  /* Button Styling */
+  .btn-orange-primary {
+    background-color: orangered;
+    border: 1px solid orangered;
+    color: #ffffff;
+    border-radius: 10px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 69, 0, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-orange-primary:hover,
+  .btn-orange-primary:focus {
+    background-color: var(--accent-orange-hover);
+    border-color: var(--accent-orange-hover);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(255, 69, 0, 0.3);
+  }
+
+  .btn-outline-cancel {
+    background-color: #ffffff;
+    border: 1.5px solid var(--border-neutral);
+    color: #64748b;
+    border-radius: 10px;
+    padding: 0.75rem 1.75rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-outline-cancel:hover {
+    background-color: #f1f5f9;
+    color: var(--dark-heading);
+    border-color: #cbd5e1;
+  }
+
+  /* Password Container */
+  .password-field-container {
+    position: relative;
+  }
+
+  .password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+  }
+
+  .password-toggle-btn:hover {
+    color: orangered;
+  }
+</style>
+
+<div class="container-fluid my-4 px-3 px-md-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xl-11">
+
+      <div class="profile-edit-wrapper p-4 p-md-5">
+
+        <!-- Page Title Header -->
+        <div class="d-flex align-items-center justify-content-between pb-3 mb-4 border-bottom">
+          <div>
+            <h3 class="fw-bold text-dark mb-1">Account Settings</h3>
+            <p class="text-muted small mb-0">Update your profile details and security credentials.</p>
+          </div>
+          <a href="/users/profile" class="btn-close" aria-label="Close"></a>
+        </div>
+
+        <form action="/users/<%= user._id%>?_method=PUT" method="POST" id="profileForm">
+
+          <!-- Section 1: Personal Information -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-user-gear text-dark"></i> Personal Information
+            </div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label for="firstName" class="custom-label">First Name</label>
+                <input type="text" class="form-control-custom" id="firstName" name="first_name" value="<%= user ? user.first_name : '' %>" required>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="lastName" class="custom-label">Last Name</label>
+                <input type="text" class="form-control-custom" id="lastName" name="last_name" value="<%= user ? user.last_name : '' %>" required>
+              </div>
+
+              <div class="col-12">
+                <label for="username" class="custom-label">Username</label>
+                <input type="text" class="form-control-custom" id="username" name="username" value="<%= user ? user.username : '' %>" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Contact Details -->
+          <div class="form-section-card">
+            <div class="form-section-title">
+              <i class="fa-solid fa-address-card text-dark"></i> Contact Details
+            </div>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label for="email" class="custom-label">Email Address</label>
+                <input type="email" class="form-control-custom" id="email" name="email_id" value="<%= user ? user.email_id : '' %>" required>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="number" class="custom-label">Mobile Number</label>
+                <input type="tel" class="form-control-custom" id="number" name="number" value="<%= user ? user.number : '' %>" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Password Update -->
+          <div class="form-section-card mb-4">
+            <div class="form-section-title">
+              <i class="fa-solid fa-shield-halved text-dark"></i> Security (Optional)
+            </div>
+            <p class="text-muted small mb-3">Leave blank if you do not want to update your password.</p>
+
+            <div class="row g-3">
+              <div class="col-12 col-md-6">
+                <label for="newPassword" class="custom-label">New Password</label>
+                <div class="password-field-container">
+                  <input type="password" class="form-control-custom pe-5" id="newPassword" name="new_password" placeholder="Enter new password">
+                  
+                </div>
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="confirmPassword" class="custom-label">Confirm Password</label>
+                <div class="password-field-container">
+                  <input type="password" class="form-control-custom pe-5" id="confirmPassword" name="confirm_password" placeholder="Confirm new password">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="d-flex align-items-center justify-content-end gap-3 pt-3 border-top">
+            <a href="/users/profile" class="btn btn-outline-cancel">Cancel</a>
+            <button type="submit" class="btn btn-orange-primary">
+              <i class="fa-solid fa-check"></i> Save Changes
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,236 @@
+:root {
+    --brand-primary: #f17649;
+    --brand-dark: #d9531e;
+    --brand-gradient: linear-gradient(135deg, #f17649 0%, #d9531e 100%);
+    --surface-bg: #ffffff;
+    --surface-muted: #f8fafc;
+    --text-dark: #0f172a;
+    --text-muted: #64748b;
+    --border-subtle: #e2e8f0;
+    --shadow-soft: 0 12px 30px -10px rgba(15, 23, 42, 0.08);
+    --shadow-hover: 0 20px 40px -12px rgba(15, 23, 42, 0.12);
+  }
+
+  /* Main Card Layout */
+  .property-details-card {
+    background: var(--surface-bg);
+    border-radius: 24px !important;
+    border: 1px solid var(--border-subtle) !important;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.06);
+  }
+
+  /* Hero Title */
+  .property-hero-title {
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    color: rgb(42, 42, 42);
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+  }
+
+  /* Modern Image Showcase Frame with Subtle Zoom */
+  .img-showcase-container {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: var(--surface-muted);
+    min-height: 380px;
+  }
+
+  .img-showcase-container img {
+    width: 100%;
+    height: 100%;
+    max-height: 440px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .img-showcase-container:hover img {
+    transform: scale(1.03);
+  }
+
+  /* Right Sidebar Owner Card */
+  .contact-owner-card {
+    background: #ffffff;
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px !important;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+  }
+
+  .contact-owner-card:hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .contact-top-bar {
+    height: 4px;
+    background: var(--brand-gradient);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .owner-info-box {
+    background: var(--surface-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    padding: 1rem 1.15rem;
+  }
+
+  .owner-avatar {
+    width: 44px;
+    height: 44px;
+    background: rgba(241, 118, 73, 0.12);
+    color: var(--brand-primary);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+
+  /* Action Buttons */
+  .btn-contact-action {
+    height: 3.4rem;
+    border-radius: 12px !important;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .btn-whatsapp-style {
+    background: linear-gradient(135deg, #25D366 0%, #1ebd58 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 18px -4px rgba(37, 211, 102, 0.35);
+  }
+
+  .btn-whatsapp-style:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -4px rgba(37, 211, 102, 0.45);
+    color: #ffffff !important;
+  }
+
+  .btn-call-style {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 18px -4px rgba(2, 132, 199, 0.35);
+  }
+
+  .btn-call-style:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -4px rgba(2, 132, 199, 0.45);
+    color: #ffffff !important;
+  }
+
+  /* Metric Info Cards */
+  .metric-card {
+    background: var(--surface-muted);
+    border: 1px solid var(--border-subtle);
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem;
+    transition: all 0.25s ease;
+  }
+
+  .metric-card:hover {
+    background: #ffffff;
+    border-color: rgba(241, 118, 73, 0.3);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .metric-label-title {
+    font-size: 0.725rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .price-value-highlight {
+    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.025em;
+  }
+
+  .location-value-highlight {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  .location-badge-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(241, 118, 73, 0.1);
+    color: var(--brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  /* Management Action Buttons */
+  .btn-pill-manage {
+    padding: 0.65rem 1.4rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    border-radius: 12px !important;
+    transition: all 0.2s ease;
+  }
+
+  .btn-pill-manage:hover {
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .img-showcase-container {
+      min-height: 280px;
+    }
+  }
+
+  /* map */
+  /* Responsive Map Section Container */
+.map-section {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.08);
+  width: 100%;
+}
+
+.map-title {
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  color: #0f172a;
+}
+
+/* Map Canvas Container */
+#map {
+  width: 100%;
+  height: 420px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Mobile & Tablet Adjustments */
+@media (max-width: 768px) {
+  #map {
+    height: 300px; /* Reduced height so it fits mobile screens better */
+  }
+  
+  .map-section {
+    padding: 1rem !important; /* Reduces padding on smaller screens */
+    border-radius: 16px;
+  }
+}
