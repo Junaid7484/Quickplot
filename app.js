@@ -106,15 +106,10 @@ app.use((err, req, res, next) => {
 });
 
 
-app.get(
-  "/",
-  wrapAsync(async (req, res) => {
-    const counter = await Quickplot.countDocuments();
-    const totalUser = await Signup.countDocuments();
-    const quickplots = await Quickplot.find().limit(4);
-    res.render("dashboard.ejs", { quickplots, counter, totalUser });
-  })
-);
+app.get("/", async(req,res)=> {
+   let quickplots = await Quickplot.find();
+    res.render("quickplot.ejs", { quickplots });
+})
 
 app.listen(port,()=> {
   console.log(`server is running on port ${port}`);
