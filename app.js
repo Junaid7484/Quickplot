@@ -29,7 +29,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local")
 const {isLoggedIn} = require("./middleware.js")
 
-dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/Quickplot";
+dbUrl = process.env.ATLASDB_URL;
 
 async function main() {
   await mongoose.connect(dbUrl);
