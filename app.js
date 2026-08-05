@@ -106,9 +106,8 @@ app.use((err, req, res, next) => {
 });
 
 
-app.get("/", async(req,res)=> {
-   let quickplots = await Quickplot.find();
-    res.render("quickplot.ejs", { quickplots });
+app.get("/",(req,res)=> {
+  res.send("i am root directory")
 })
 
 app.listen(port,()=> {
