@@ -105,7 +105,9 @@ app.use((err, req, res, next) => {
   res.render("error.ejs", { message });
 });
 
-
+app.get("/",(req,res)=> {
+  res.render("root.ejs")
+})
 
 
 app.listen(port,()=> {
