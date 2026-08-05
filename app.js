@@ -106,9 +106,7 @@ app.use((err, req, res, next) => {
 });
 
 
-app.get("/",(req,res)=> {
-  res.send("i am root directory")
-})
+
 
 app.listen(port,()=> {
   console.log(`server is running on port ${port}`);
