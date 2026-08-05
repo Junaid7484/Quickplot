@@ -15,15 +15,15 @@ const { storage } = require("../cloudConfig.js");
 const upload = multer({ storage });
 
 // 1. DASHBOARD
-router.get(
-  "/",
-  wrapAsync(async (req, res) => {
-    const counter = await Quickplot.countDocuments();
-    const totalUser = await Signup.countDocuments();
-    const quickplots = await Quickplot.find().limit(4);
-    res.render("dashboard.ejs", { quickplots, counter, totalUser });
-  })
-);
+// router.get(
+//   "/",
+//   wrapAsync(async (req, res) => {
+//     const counter = await Quickplot.countDocuments();
+//     const totalUser = await Signup.countDocuments();
+//     const quickplots = await Quickplot.find().limit(4);
+//     res.render("dashboard.ejs", { quickplots, counter, totalUser });
+//   })
+// );
 
 // 2. INFO / ABOUT
 router.get(
